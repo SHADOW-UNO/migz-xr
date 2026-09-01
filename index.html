@@ -1,137 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b0b0f">
-  <title>MIGZ XR</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enrico Miguel | Connect</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Inter', Arial, sans-serif;
+    background: #050505;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+/* Subtle background */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(circle at 50% 15%, #222 0, transparent 30%),
+        radial-gradient(circle at 10% 90%, #151515 0, transparent 25%),
+        radial-gradient(circle at 90% 70%, #111 0, transparent 25%);
+    pointer-events: none;
+}
+
+.card {
+    position: relative;
+    width: min(100%, 480px);
+    min-height: 100vh;
+    padding: 35px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* NFC indicator */
+.nfc {
+    position: absolute;
+    top: 25px;
+    right: 22px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #333;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 17px;
+    color: #aaa;
+}
+
+/* Profile */
+.profile {
+    margin-top: 30px;
+    text-align: center;
+    animation: fadeUp .8s ease both;
+}
+
+.photo-wrap {
+    width: 125px;
+    height: 125px;
+    margin: 0 auto 22px;
+    padding: 3px;
+    border: 1px solid #555;
+    border-radius: 50%;
+    position: relative;
+}
+
+.photo-wrap::after {
+    content: "";
+    position: absolute;
+    inset: -7px;
+    border: 1px solid #222;
+    border-radius: 50%;
+}
+
+.photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    background: #151515;
+}
+
+.name {
+    font-size: clamp(34px, 10vw, 48px);
+    font-weight: 800;
+    letter-spacing: -2px;
+}
+
+.role {
+    margin-top: 8px;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.handle {
+    margin-top: 6px;
+    color: #666;
+    font-size: 13px;
+}
+
+/* Status */
+.status {
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #aaa;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 12px #fff;
+}
+
+/* Links */
+.links {
+    width: 100%;
+    margin-top: 28px;
+    display: grid;
+    gap: 12px;
+}
+
+.link {
+    min-height: 62px;
+    padding: 0 20px;
+    border: 1px solid #292929;
+    border-radius: 15px;
+    background: rgba(255,255,255,.035);
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: .3s ease;
+    animation: fadeUp .7s ease both;
+}
+
+.link:hover {
+    transform: translateY(-3px);
+    border-color: #777;
+    background: rgba(255,255,255,.09);
+}
+
+.icon {
+    width: 32px;
+    text-align: center;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.link-info {
+    flex: 1;
+}
+
+.link-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.link-sub {
+    margin-top: 3px;
+    color: #777;
+    font-size: 11px;
+}
+
+.arrow {
+    color: #777;
+    font-size: 18px;
+}
+
+/* Save contact */
+.save {
+    width: 100%;
+    margin-top: 12px;
+    min-height: 62px;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    background: #fff;
+    color: #000;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+.save:hover {
+    background: #ddd;
+    transform: translateY(-3px);
+}
+
+/* QR */
+.qr-section {
+    width: 100%;
+    margin-top: 35px;
+    padding: 22px;
+    border: 1px solid #222;
+    border-radius: 18px;
+    text-align: center;
+    background: rgba(255,255,255,.025);
+}
+
+.qr {
+    width: 145px;
+    height: 145px;
+    margin: 0 auto 15px;
+    padding: 8px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.qr img {
+    width: 100%;
+    height: 100%;
+}
+
+.qr-title {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.qr-text {
+    margin-top: 6px;
+    color: #666;
+    font-size: 11px;
+}
+
+/* Footer */
+footer {
+    margin-top: 35px;
+    padding-bottom: 15px;
+    color: #444;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Animation */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.link:nth-child(1) { animation-delay: .1s; }
+.link:nth-child(2) { animation-delay: .18s; }
+.link:nth-child(3) { animation-delay: .26s; }
+.link:nth-child(4) { animation-delay: .34s; }
+.save { animation: fadeUp .7s .42s both; }
+.qr-section { animation: fadeUp .7s .5s both; }
+
+/* Mobile */
+@media (max-width: 400px) {
+    .card {
+        padding: 28px 16px;
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0b0f;
-      color: white;
+    .name {
+        font-size: 34px;
     }
 
-    .container {
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
+    .photo-wrap {
+        width: 110px;
+        height: 110px;
     }
-
-    .profile {
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      background: #18181f;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      border: 1px solid #292932;
-    }
-
-    h1 {
-      font-size: 30px;
-      letter-spacing: 2px;
-      margin-bottom: 8px;
-    }
-
-    .subtitle {
-      color: #9999a3;
-      font-size: 14px;
-      margin-bottom: 30px;
-    }
-
-    .links {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .link {
-      display: block;
-      width: 100%;
-      padding: 17px 20px;
-      border-radius: 14px;
-      background: #16161d;
-      border: 1px solid #292932;
-      color: white;
-      text-decoration: none;
-      font-size: 16px;
-      font-weight: 600;
-      transition: 0.2s ease;
-    }
-
-    .link:hover {
-      transform: translateY(-2px);
-      background: #1e1e27;
-      border-color: #44444f;
-    }
-
-    .icon {
-      margin-right: 8px;
-    }
-
-    footer {
-      margin-top: 30px;
-      color: #666672;
-      font-size: 12px;
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <main class="container">
+<main class="card">
 
-    <div class="profile">XR</div>
+    <div class="nfc">⌁</div>
 
-    <h1>MIGZ XR</h1>
+    <section class="profile">
+        <div class="photo-wrap">
+            <!-- Change profile.png to your actual photo filename -->
+            <img src="profile.png" alt="Enrico Miguel" class="photo">
+        </div>
 
-    <p class="subtitle">Connect with me</p>
+        <h1 class="name">ENRICO MIGUEL</h1>
+        <p class="role">Mechatronics Technology Student</p>
+        <p class="handle">@migz_xr</p>
+    </section>
 
-    <div class="links">
-
-      <a
-        class="link"
-        href="https://www.instagram.com/migz_xr/"
-        target="_blank"
-        rel="noopener noreferrer">
-        <span class="icon">📸</span>
-        Instagram
-      </a>
-
-      <a
-        class="link"
-        href="https://www.facebook.com/share/18RUkZpCGp/"
-        target="_blank"
-        rel="noopener noreferrer">
-        <span class="icon">📘</span>
-        Facebook
-      </a>
-
+    <div class="status">
+        <span class="dot"></span>
+        Available to connect
     </div>
 
+    <section class="links">
+
+        <a class="link" href="https://www.instagram.com/migz_xr/" target="_blank">
+            <span class="icon">◎</span>
+            <span class="link-info">
+                <span class="link-title">Instagram</span>
+                <span class="link-sub">@migz_xr</span>
+            </span>
+            <span class="arrow">→</span>
+        </a>
+
+        <a class="link" href="https://www.facebook.com/enricomiguel.labao.1" target="_blank">
+            <span class="icon">f</span>
+            <span class="link-info">
+                <span class="link-title">Facebook</span>
+                <span class="link-sub">Enrico Miguel Labao</span>
+            </span>
+            <span class="arrow">→</span>
+        </a>
+
+        <a class="link" href="https://www.tiktok.com/@shadow08_hshshs" target="_blank">
+            <span class="icon">♪</span>
+            <span class="link-info">
+                <span class="link-title">TikTok</span>
+                <span class="link-sub">@shadow08_hshshs</span>
+            </span>
+            <span class="arrow">→</span>
+        </a>
+
+        <a class="link" href="https://github.com/SHADOW-UNO" target="_blank">
+            <span class="icon">◉</span>
+            <span class="link-info">
+                <span class="link-title">GitHub</span>
+                <span class="link-sub">SHADOW-UNO</span>
+            </span>
+            <span class="arrow">→</span>
+        </a>
+
+        <button class="save" onclick="saveContact()">
+            + SAVE CONTACT
+        </button>
+
+    </section>
+
+    <section class="qr-section">
+        <div class="qr">
+            <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://shadow-uno.github.io/"
+                alt="QR Code">
+        </div>
+        <p class="qr-title">SCAN TO CONNECT</p>
+        <p class="qr-text">Use this QR code to open my digital contact card.</p>
+    </section>
+
     <footer>
-      MIGZ XR • NFC Profile
+        ENRICO DIGITAL CONTACT CARD · 2026
     </footer>
 
-  </main>
+</main>
+
+<script>
+function saveContact() {
+    const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:Enrico Miguel Labao
+N:Labao;Enrico Miguel;;;
+ORG:Mechatronics Technology
+URL:https://www.instagram.com/migz_xr/
+NOTE:Digital Contact Card
+END:VCARD`;
+
+    const blob = new Blob([vcard], { type: "text/vcard" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Enrico-Miguel.vcf";
+    a.click();
+
+    URL.revokeObjectURL(url);
+}
+</script>
 
 </body>
 </html>
